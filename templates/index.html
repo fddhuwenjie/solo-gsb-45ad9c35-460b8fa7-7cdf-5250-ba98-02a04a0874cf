@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>直播节目串联单</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>📺 直播节目串联单</h1>
+    <span id="clock" class="clock"></span>
+  </header>
+
+  <main>
+    <!-- 节目设置 -->
+    <section id="setup-section" class="card hidden">
+      <h2>节目设置</h2>
+      <div class="form-row">
+        <label>节目起点
+          <input type="datetime-local" id="setup-start" step="1">
+        </label>
+        <label>总秒数
+          <input type="number" id="setup-total" min="1" step="1" placeholder="如 7200">
+        </label>
+        <button id="setup-save" class="primary">保存设置</button>
+      </div>
+      <p class="hint">播出开始后，节目起点与总秒数不可再修改。</p>
+    </section>
+
+    <!-- 状态总览 -->
+    <section id="status-section" class="card hidden">
+      <div class="status-grid">
+        <div class="stat"><span>节目起点</span><b id="st-start">-</b></div>
+        <div class="stat"><span>总时长</span><b id="st-total">-</b></div>
+        <div class="stat"><span>预计终点</span><b id="st-end">-</b></div>
+        <div class="stat"><span>已播实际</span><b id="st-elapsed">-</b></div>
+        <div class="stat"><span>剩余时间</span><b id="st-remaining">-</b></div>
+        <div class="stat"><span>排期状态</span><b id="st-feasible">-</b></div>
+      </div>
+      <p id="conflict-banner" class="conflict hidden"></p>
+    </section>
+
+    <!-- 当前段 -->
+    <section id="current-section" class="card hidden">
+      <h2>当前段</h2>
+      <div id="current-info" class="current-info"></div>
+      <div class="form-row">
+        <label>实际秒数
+          <input type="number" id="finish-actual" min="1" step="1" placeholder="实际播出秒数">
+        </label>
+        <button id="finish-btn" class="primary">结束当前段并记录</button>
+      </div>
+      <p class="hint">记录一旦写入不可改写；即使余下清单因此无解，记录也会保留。</p>
+    </section>
+
+    <!-- 待播清单 -->
+    <section id="pending-section" class="card hidden">
+      <h2>
+        待播清单
+        <button id="edit-toggle">编辑整份清单</button>
+      </h2>
+
+      <div id="pending-view"></div>
+
+      <div id="pending-edit" class="hidden">
+        <div id="edit-rows"></div>
+        <div class="edit-actions">
+          <button id="add-interview">＋访谈段</button>
+          <button id="add-sponsor">＋赞助段</button>
+          <span class="spacer"></span>
+          <button id="edit-save" class="primary">保存清单</button>
+          <button id="edit-cancel">取消</button>
+        </div>
+        <p id="edit-preview" class="hint"></p>
+        <p id="edit-error" class="error hidden"></p>
+        <p class="hint">播出开始后：赞助段的时长与先后顺序不可更改，访谈段可插入、删除、移动。</p>
+      </div>
+    </section>
+
+    <!-- 已播记录 -->
+    <section id="aired-section" class="card hidden">
+      <h2>已播记录</h2>
+      <div id="aired-view"></div>
+    </section>
+
+    <!-- 危险操作 -->
+    <section id="danger-section" class="card hidden">
+      <button id="reset-btn" class="danger">重置节目（清空全部数据）</button>
+    </section>
+
+    <p id="toast" class="hidden"></p>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+services:
+  rundown:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # SQLite 数据持久化到命名卷，容器重建后实况与排期仍在
+      - rundown-data:/data
+    restart: unless-stopped
+
+volumes:
+  rundown-data:
